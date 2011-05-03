@@ -25,6 +25,6 @@ def runJob(MRJobClass, argsArr):
     runner.run()
     
 def runParallelJob(MRJobClass, argsArr):            #TO DO: add threading to allow jobs to run in 
-                                                    #parallel 
+    pass                                                #parallel 
     #launch a new thread
     #call runJob(MRJobClass, argsArr) on the new thread
