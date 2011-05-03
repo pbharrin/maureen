@@ -18,11 +18,11 @@ argsArr - an array of strings to be used when creating the MRJob.
 @author: Peter Harrington  if you have any questions: peter.b.harrington@gmail.com
 '''
 def runJob(MRJobClass, argsArr):
-    #if not local: argsArr.extend(['-r', 'emr'])    #TO DO: add hooks for automatically 
-                                                    #appending -r emr 
+    #if not local: argsArr.extend(['-r', 'emr'])    #TO DO: add hook for appending -r emr
     mrJob = MRJobClass(args=argsArr)
     runner = mrJob.make_runner()
     runner.run()
+    return mrJob, runner
     
 def runParallelJob(MRJobClass, argsArr):            #TO DO: add threading to allow jobs to run in 
     pass                                                #parallel 
