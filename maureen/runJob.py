@@ -17,8 +17,9 @@ MRJobClass - the class of the job to be run
 argsArr - an array of strings to be used when creating the MRJob.
 @author: Peter Harrington  if you have any questions: peter.b.harrington@gmail.com
 '''
-def runJob(MRJobClass, argsArr):
-    #if not local: argsArr.extend(['-r', 'emr'])    #TO DO: add hook for appending -r emr
+def runJob(MRJobClass, argsArr, loc='local'):
+    if loc == 'emr': 
+        argsArr.extend(['-r', 'emr'])
     mrJob = MRJobClass(args=argsArr)
     runner = mrJob.make_runner()
     runner.run()
