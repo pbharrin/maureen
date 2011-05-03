@@ -3,8 +3,11 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name='Maureen',
+import maureen
+
+setup(name='maureen',
       version='0.1',
+      provides=['maureen'],
       description='Python Distributed Data Mining Library',
       author='Peter Harrington',
       author_email='peter.b.harrington@gmail.com',
@@ -18,6 +21,6 @@ setup(name='Maureen',
       install_requires=[
         'mrjob'
     		],
-     
+      zip_safe=False, 
      )
 
