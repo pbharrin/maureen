@@ -1,10 +1,10 @@
-Maureen is a distributed machine learning library for Python.  It is built on top of mrjob library which provides a MapReduce framework in Python.
+Maureen is a distributed machine learning library for Python.  It is built on top of the mrjob library which provides a MapReduce framework in Python.
 
 Maureen is currently in pre-release development.  
 
 Goals for the 0.1 release:
--install not difficult
--recommendation engine works on distributed system
+-install not difficult -done
+-one ML algo working on a distributed system
 
 Feature Request List
 Recommendation engines 
@@ -28,4 +28,5 @@ Adapters to common datasets
 -Wikipedia snapshot
 -US Census 
 
-Search?
+Search
+-Lucene style index needed for LDA
