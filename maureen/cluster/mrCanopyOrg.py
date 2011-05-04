@@ -18,27 +18,31 @@ in one mrjob file because we can store intermediate values to disk rather than p
 around.  
 @author: Peter Harrington  if you have any questions: peter.b.harrington@gmail.com
 '''
-from mrMovieLensParse import MRMovieLensParse
-from mrCanopyCluster import MRCanopyCluster
-from mrCanopyFinalCluster import MRCanopyFinalCluster
+from maureen import runJob #can also do from maureen import *
+from maureen.adapters import MovieLensParse
+from maureen.cluster import MRCanopyCluster
+from maureen.cluster import MRCanopyFinalCluster
 
-def runMRjob(MRJobClass, argsArr):
-    mrJob = MRJobClass(args=argsArr)
-    runner = mrJob.make_runner()
-    runner.run()
-    
-cwd = 'C:\\Users\\Peter\\workspace\\mrjobTest\\src\\'
+loc = 'local'         #could be 'local' or 'emr'
+if loc == 'local': 
+    cwd = 'C:\\Users\\Peter\\workspace\\mrjobTest\\src\\'
+    sep = '\\'
+elif loc == 'emr': 
+    cwd = 's3://rustbucket/'
+    sep = '/'
 
 #create User Vectors from MovieLens DataMRMovieLensParse
-runMRjob(MRMovieLensParse, ['%srat5000.dat' % cwd, '--output-dir=%s\\uVectors' % cwd])
+runJob(MovieLensParse, ['%srat5000.dat' % cwd, '--output-dir=%suVectors' % cwd], loc)
 
 #generate Canopy Clusters 
-runMRjob(MRCanopyCluster, ['%s\\uVectors\\part-00000' % cwd, 
-                           '--output-dir=%s\\clusters' % cwd, '--t2=15'])
+runJob(MRCanopyCluster, ['%suVectors%spart-00000' % (cwd, sep), 
+                           '--output-dir=%sclusters' % cwd, '--t2=64'], loc)
 
 #cluster all user vectors based on canopies generated in the previous step
-mrJob = MRCanopyFinalCluster(args=['%s\\uVectors\\part-00000' % cwd, '--t1=45'])
-runner = mrJob.make_runner()
-runner.run()
-for line in runner.stream_output():  #print output for demonstration
-        print mrJob.parse_output_line(line)
+myJob, myRunner = runJob(MRCanopyFinalCluster, ['%suVectors%spart-00000' % (cwd, sep),
+                                                 '--t1=65'], loc)
+for line in myRunner.stream_output():  #print output for demonstration
+        print myJob.parse_output_line(line)
+     
+#       TO DO: cleanup delete temporary directories
+#   cleanUp(dir)
