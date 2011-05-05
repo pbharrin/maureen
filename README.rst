@@ -34,6 +34,7 @@ Feature Request List
 
 * Adapters to common datasets
 	* Movie Lens
+	* Reuters-21578 corpus
 	* Wikipedia snapshot
 	* US Census 
 
